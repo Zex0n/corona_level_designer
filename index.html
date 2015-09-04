@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>HTML5 Level Designer for Corona SDK</title>
+<!-- Bootstrap -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/leveldesigner.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/leveldesigner.css" />
+<link rel="stylesheet" href="/css/jquery-ui.css" />
+<script src="/js/jquery-ui.js"></script>
+
+<script type="application/ecmascript" async="" src="/js/Blob.js"></script>
+<script type="application/ecmascript" async="" src="/js/canvas-toBlob.min.js"></script>
+<script type="application/ecmascript" async="" src="/js/FileSaver.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+          <div class="span2" id="resources">
+    <!-- Область для перетаскивания -->
+    <div id="drop-files" class="well" ondragover="return false">
+        <span>Drop images here</span>
+        <form id="frm">
+            <input type="file" id="uploadbtn" multiple />
+        </form>
+    </div>
+
+
+    <div>
+        <input type="file" id="fileElem" accept="text/plain" style="display:none" onchange="handleProjectFiles(this.files)">
+        <a class="btn btn-mini open-project" href="#" title="Load project"><i class="icon-folder-open"></i></a>
+        <a class="btn btn-mini save-project" href="#" title="Save project"><i class="icon-upload"></i></a>
+        <button type="button" class="btn btn-mini" id="saveFile" title="Save LUA"><i class="icon-file"></i></button>
+        <a class="btn btn-mini new-sprite" href="#" title="Create sprite"><i class="icon-share-alt"></i></a>
+
+    </div>
+    <!-- Область предпросмотра -->
+    <div id="uploaded-holder">
+        <div id="delete-block">
+            <a href="#" class="delete">Delete all</a>
+        </div>
+        <!-- Кнопки загрузить и удалить, а также количество файлов -->
+        <div id="upload-button">
+
+                <!-- Прогресс бар загрузки -->
+                <div id="loading">
+                    <div id="loading-bar">
+                        <div class="loading-color"></div>
+                    </div>
+                    <div id="loading-content"></div>
+                </div>
+
+        </div>
+
+        <div id="dropped-files">
+
+        </div>
+    </div>
+
+    <!-- область слоев -->
+    <div id="layers-list">
+    <form onsubmit="return false;" id="layerPrefForm" class="form-horizontal">
+      <input type="hidden" id="layerId" value="">
+      <input type="hidden" id="horFrames" value="">
+      <input type="hidden" id="vertFrames" value="">
+
+      <div class="control-group">
+        <label class="control-label" for="imgName">Img Name</label>
+        <div class="controls">
+          <input type="text" id="imgName" class="input-small">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="layername">Name</label>
+        <div class="controls">
+          <input type="text" id="layername" class="input-small"><br>
+          <span id="autoCompleteTextLayer" class="autoComplete">TextLayer</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="layerWidth">Width</label>
+        <div class="controls">
+          <input type="text" id="layerWidth" class="input-small">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="layerHeight">Height</label>
+        <div class="controls">
+          <input type="text" id="layerHeight" class="input-small">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="layerTop">Top</label>
+        <div class="controls">
+          <input type="text" id="layerTop" class="input-small">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="layerLeft">Left</label>
+        <div class="controls">
+          <input type="text" id="layerLeft" class="input-small">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="frameW">Frame W</label>
+        <div class="controls">
+          <input type="text" id="frameW" class="input-small" title="Frame Width">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="frameH">Frame H</label>
+        <div class="controls">
+          <input type="text" id="frameH" class="input-small" title="Frame Height">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="frameC">Frame C</label>
+        <div class="controls">
+          <input type="text" id="frameC" class="input-small" title="Frames Count">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="frameTime">Time</label>
+        <div class="controls">
+          <input type="text" id="frameTime" class="input-small" title="Animation's Time">
+        </div>
+      </div>
+
+      <!-- count of frames -->
+      <div class="control-group">
+        <label class="control-label" for="HorFramesInput">HorFrames</label>
+        <div class="controls">
+          <input type="text" id="HorFramesInput" class="input-small" title="Number of frames in the horizontal">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="VertFramesInput">VertFrames</label>
+        <div class="controls">
+          <input type="text" id="VertFramesInput" class="input-small" title="Number of frames in the vertical">
+        </div>
+      </div>
+      <!-- / count of frames -->
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary btn-mini"><i class="icon-ok icon-white"></i> Save</button>
+            </div>
+        </div>
+
+
+    </form>
+    </div>
+
+
+          </div>
+
+<div class="span10" id="layer-block-container" style="margin-left: 10px; width: 1030px;">
+<!--    <div class="layer-block" id="layer-block" style="width: 1024px; ">
+
+    </div>
+-->
+<iframe id="iframe-layer-block" name="iframe-layer-block" src="/layerblock.html" style="width: 100%; height: 768px;"></iframe>
+
+<div class="row">
+    <!-- кнопки масштабирования -->
+    <div id="scaleDiv" class="span3">
+        <button class="btn" id="scaleMinus"><i class="icon-minus" title="Scale minus"></i></button>
+        <input type="text" class="input-mini" id="scaleNum" value="1" readonly>
+        <button class="btn" id="scalePlus"><i class="icon-plus" title="Scale plus"></i></button>
+    </div>
+    <div id="deviceDiv" class="span2">
+        <select>
+            <option value="">iPhone Landscape (480 x 320)</option>
+            <option value="">iPhone Portrait (320 x 480)</option>
+            <option value="">iPhone Retina Landscape (960 x 640)</option>
+            <option value="">iPhone Retina Portrait (640 x 960)</option>
+            <option value="">iPad Landscape (1024 x 768)</option>
+            <option value="">iPad Portrait (768 x 1024)</option>
+            <option value="">iPad Retina Portrait (1536 x 2048)</option>
+            <option value="">iPad Retina Landscape (2048 x 1536)</option>
+        </select>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

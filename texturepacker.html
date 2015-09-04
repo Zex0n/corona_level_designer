@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>HTML5 Sprite Generator</title>
+<!-- Bootstrap -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+<script type="application/ecmascript" async="" src="/js/Blob.js"></script>
+<script type="application/ecmascript" async="" src="/js/canvas-toBlob.js"></script>
+<script type="application/ecmascript" async="" src="/js/FileSaver.min.js"></script>
+
+<link rel="stylesheet" href="/css/jquery-ui.css" />
+<script src="/js/jquery-ui.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/texturepacker.css" />
+<script type="text/javascript" src="/js/texturepacker.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+          <div class="span3" id="resources">
+              <!-- Область для перетаскивания -->
+              <div id="drop-files" class="well" ondragover="return false">
+                  <span>Drop images here</span>
+                  <form id="frm">
+                      <input type="file" id="uploadbtn" multiple />
+                  </form>
+              </div>
+
+
+              <!-- Область предпросмотра -->
+              <div id="uploaded-holder">
+                  <button class="btn btn-mini" id="createImg" title="Create the sprite"><i class="icon-picture"></i> Create</button>
+                  <button class="btn btn-mini save-project" href="#" title="Save sprite"><i class="icon-hdd"></i> Save</button>
+                  <button class="btn btn-mini" id="to-level-designer" href="#" title="To level designer"><i class="icon-share"></i> Send to LD</button>
+
+                  <!-- Кнопки загрузить и удалить, а также количество файлов -->
+                  <div id="upload-button">
+
+                  </div>
+
+                  <div id="dropped-files">
+
+                  </div>
+                  <div id="delete-block">
+                      <a href="#" class="delete">Delete all</a>
+                  </div>
+              </div>
+
+          </div>
+
+            <div class="span9">
+                <div id="layer-block-container">
+                    <canvas id="imgCanvas"></canvas>
+                </div>
+
+
+            </div>
+</div>
+</div>
+</body>
+</html>
